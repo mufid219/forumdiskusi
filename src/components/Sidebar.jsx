@@ -13,6 +13,7 @@ function Sidebar() {
       <h1 className="text-xl flex flex-row cursor-pointer rounded-full p-3 hover:bg-slate-200"><MdOutlineLeaderboard className="mr-4" /> LeaderBoards</h1>
       <h1 className="text-xl flex flex-row cursor-pointer rounded-full p-3 hover:bg-slate-200"><BiLogIn className="mr-4" /> Login</h1>
       <h1 className="text-xl flex flex-row cursor-pointer rounded-full p-3 hover:bg-slate-200"><BiLogOut className="mr-4" /> Logout</h1>
+      <h1 className="text-lg cursor-pointer py-3 px-5 bg-blue-500 text-white border-2 rounded-full ml-2 hover:bg-blue-600">Buat diskusi</h1>
     </div>
   );
 }

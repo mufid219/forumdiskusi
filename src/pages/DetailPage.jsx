@@ -5,7 +5,7 @@ import Sidebar from '../components/Sidebar';
 
 function DetailPage() {
   return (
-    <div className="flex flex-row">
+    <div className="h-screen bg-white flex flex-row">
       <Sidebar />
       <Detail />
       <Categoriesbar />

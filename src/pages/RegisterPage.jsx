@@ -7,9 +7,9 @@ function RegisterPage() {
   return (
     <div className="h-screen bg-white flex flex-row">
       <Sidebar />
-      <div className="relative flex-1 flex flex-col justify-center min-h-screen overflow-hidden">
-        <div className="w-full p-6 m-auto bg-white rounded-xl shadow-md lg:max-w-xl">
-          <h1 className="text-3xl font-semibold text-center">Register</h1>
+      <main className="relative flex-1 flex flex-col justify-center min-h-screen overflow-hidden">
+        <section className="w-full p-6 m-auto bg-white rounded-xl shadow-md lg:max-w-xl">
+          <h2 className="text-3xl font-semibold text-center">Register</h2>
           <form action="" className="mt-6">
             <div className="mb-2">
               <label htmlFor="name" className="block text-sm font-semibold text-gray-800">Name
@@ -31,8 +31,8 @@ function RegisterPage() {
             </div>
           </form>
           <p className="mt-8 text-xs font-light text-center text-gray-700">Sudah punya akun ? <Link to="/login" className="font-medium text-blue-600 hover:underline">Halaman Login.</Link></p>
-        </div>
-      </div>
+        </section>
+      </main>
       <Categoriesbar />
     </div>
   );

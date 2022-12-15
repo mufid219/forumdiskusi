@@ -5,11 +5,11 @@ import Sidebar from '../components/Sidebar';
 
 function LoginPage() {
   return (
-    <div className="h-screen bg-white flex flex-row">
+    <div className="h-screen flex flex-row">
       <Sidebar />
-      <div className="relative flex-1 flex flex-col justify-center min-h-screen overflow-hidden">
-        <div className="w-full p-6 m-auto bg-white rounded-xl shadow-md lg:max-w-xl">
-          <h1 className="text-3xl font-semibold text-center">Sign in</h1>
+      <main className="relative flex-1 flex flex-col justify-center min-h-screen overflow-hidden">
+        <section className="w-full p-6 m-auto bg-white rounded-xl shadow-md lg:max-w-xl">
+          <h2 className="text-3xl font-semibold text-center">Sign in</h2>
           <form action="" className="mt-6">
             <div className="mb-2">
               <label htmlFor="email" className="block text-sm font-semibold text-gray-800">Email
@@ -26,8 +26,8 @@ function LoginPage() {
             </div>
           </form>
           <p className="mt-8 text-xs font-light text-center text-gray-700">Tidak punya akun ? <Link to="/register" className="font-medium text-blue-600 hover:underline">Daftar disini.</Link></p>
-        </div>
-      </div>
+        </section>
+      </main>
       <Categoriesbar />
     </div>
   );

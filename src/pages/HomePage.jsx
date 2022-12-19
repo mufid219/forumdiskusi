@@ -1,16 +1,18 @@
 import React from 'react';
-import Categoriesbar from '../components/Categoriesbar';
-import Main from '../components/Main';
-import Sidebar from '../components/Sidebar';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import ForumList from '../components/ForumList';
+// import Categoriesbar from '../components/Categoriesbar';
+// import Main from '../components/Main';
+// import Sidebar from '../components/Sidebar';
 
-function HomePage() {
+function HomePage({ title }) {
   return (
-    <div className="h-screen bg-slate-400 flex flex-row">
-      <Sidebar />
-      <Main />
-      <Categoriesbar />
-    </div>
+    <>
+      <div className="flex flex-row p-3 border-b-2">
+        <h1 className="text-2xl font-semibold">{title}</h1>
+      </div>
+      <ForumList />
+    </>
   );
 }
 
@@ -23,9 +25,8 @@ function HomePage() {
 //   );
 // }
 
-// MenuItem.propTypes = {
-//   icon: PropTypes.string.isRequired,
-//   title: PropTypes.string.isRequired,
-// };
+HomePage.propTypes = {
+  title: PropTypes.string.isRequired,
+};
 
 export default HomePage;

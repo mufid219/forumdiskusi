@@ -1,5 +1,5 @@
 import React from 'react';
-import ForumList from './ForumList';
+import ThreadsList from './ThreadsList';
 
 function Main() {
   return (
@@ -7,7 +7,7 @@ function Main() {
       <div className="flex flex-row p-3 border-b-2">
         <h1 className="text-2xl font-semibold ">Diskusi Tersedia</h1>
       </div>
-      <ForumList />
+      <ThreadsList />
     </main>
   );
 }

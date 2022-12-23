@@ -3,6 +3,7 @@ import { BiDislike, BiLike } from 'react-icons/bi';
 import PropTypes from 'prop-types';
 import HTMLReactParser from 'html-react-parser';
 import { postedAt } from '../utils';
+import Comment from './Comment';
 
 function Detail({
   id,
@@ -17,8 +18,6 @@ function Detail({
 }) {
   const totalUpVote = upVotesBy ? upVotesBy.length : null;
   const totalDownVote = downVotesBy ? downVotesBy.length : null;
-  const totalUpVoteComment = comments[0].upVotesBy ? comments[0].upVotesBy.length : null;
-  const totalDownVoteComment = comments[0].downVotesBy ? comments[0].downVotesBy.length : null;
 
   console.log('avatar', comments[0].owner.name);
 
@@ -46,20 +45,11 @@ function Detail({
       </div>
       <div className="flex flex-col p-5">
         <h1 className="text-xl font-bold text-black cursor-pointer mb-1">Komentar ({comments.length})</h1>
-        <div className="flex flex-col w-full border-2 rounded-2xl p-3">
-          <div className="flex flex-row items-center justify-between mb-2">
-            <div className="flex flex-row items-center justify-start">
-              <img src={comments[0].owner.avatar} alt="" className="w-6 h-6 rounded-full mr-2" />
-              <p className="text-lg font-bold">{comments[0].owner.name}</p>
-            </div>
-            <p className="">{postedAt(comments[0].createdAt)}</p>
-          </div>
-          <h1 className="mb-1">{HTMLReactParser(comments[0].content)}</h1>
-          <div className="flex flex-row justify-start gap-x-4 items-center">
-            <h1 className="text-sm flex cursor-pointer items-center "><BiLike className="mr-1" /> {totalUpVoteComment}</h1>
-            <h1 className="text-sm flex cursor-pointer items-center "><BiDislike className="mr-1" /> {totalDownVoteComment}</h1>
-          </div>
-        </div>
+        {
+        comments.map((comment) => (
+          <Comment key={comment.id} {...comment} />
+        ))
+      }
       </div>
     </div>
   );

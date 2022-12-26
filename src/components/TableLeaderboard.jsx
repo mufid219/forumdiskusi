@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function TableLeaderboard() {
+function TableLeaderboard(props) {
+  console.log('data dari tableleaderboard', props);
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -18,14 +20,19 @@ function TableLeaderboard() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="bg-gray-100 border-b">
-                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    Mark
-                  </td>
-                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    Otto
-                  </td>
-                </tr>
+
+                {
+                    props.map((leaderboard) => {
+                      <tr className="bg-gray-100 border-b">
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                          {leaderboard.user.name}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                          {leaderboard.score}
+                        </td>
+                      </tr>;
+                    })
+                  }
 
               </tbody>
             </table>
@@ -35,5 +42,16 @@ function TableLeaderboard() {
     </div>
   );
 }
-
+// const userShape = {
+//   id: PropTypes.string.isRequired,
+//   name: PropTypes.string.isRequired,
+//   avatar: PropTypes.string.isRequired,
+// };
+const leaderboardsItemShape = {
+  props: PropTypes.string.isRequired,
+  // user: PropTypes.shape(userShape).isRequired,
+};
+TableLeaderboard.propTypes = {
+  ...leaderboardsItemShape,
+};
 export default TableLeaderboard;

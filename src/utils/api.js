@@ -4,9 +4,11 @@ const api = (() => {
   function putAccessToken(token) {
     localStorage.setItem('accessToken', token);
   }
+
   function getAccessToken() {
     return localStorage.getItem('accessToken');
   }
+
   async function _fetchWithAuth(url, options = {}) {
     return fetch(url, {
       ...options,
@@ -24,7 +26,9 @@ const api = (() => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name, email, password,
+        name,
+        email,
+        password,
       }),
     });
     const responseJson = await response.json();
@@ -33,6 +37,7 @@ const api = (() => {
     if (status !== 'success') {
       throw new Error(message);
     }
+
     const { data: { user } } = responseJson;
     return user;
   }
@@ -54,6 +59,7 @@ const api = (() => {
     if (status !== 'success') {
       throw new Error(message);
     }
+
     const { data: { token } } = responseJson;
     return token;
   }
@@ -62,9 +68,11 @@ const api = (() => {
     const response = await _fetchWithAuth(`${BASE_URL}/users/me`);
     const responseJson = await response.json();
     const { status, message } = responseJson;
+
     if (status !== 'success') {
       throw new Error(message);
     }
+
     const { data: { user } } = responseJson;
     return user;
   }
@@ -72,10 +80,12 @@ const api = (() => {
   async function getAllUsers() {
     const response = await fetch(`${BASE_URL}/users`);
     const responseJson = await response.json();
+
     const { status, message } = responseJson;
     if (status !== 'success') {
       throw new Error(message);
     }
+
     const { data: { users } } = responseJson;
     return users;
   }
@@ -84,9 +94,11 @@ const api = (() => {
     const response = await fetch(`${BASE_URL}/threads`);
     const responseJson = await response.json();
     const { status, message } = responseJson;
+
     if (status !== 'success') {
       throw new Error(message);
     }
+
     const { data: { threads } } = responseJson;
     return threads;
   }
@@ -105,9 +117,11 @@ const api = (() => {
     });
     const responseJson = await response.json();
     const { status, message } = responseJson;
+
     if (status !== 'success') {
       throw new Error(message);
     }
+
     const { data: { thread } } = responseJson;
     return thread;
   }
@@ -116,11 +130,67 @@ const api = (() => {
     const response = await fetch(`${BASE_URL}/threads/${id}`);
     const responseJson = await response.json();
     const { status, message } = responseJson;
+
     if (status !== 'success') {
       throw new Error(message);
     }
+
     const { data: { detailThread } } = responseJson;
     return detailThread;
+  }
+
+  async function getAllLeaderboards() {
+    const response = await _fetchWithAuth(`${BASE_URL}/leaderboards`);
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    console.log('responjson api', responseJson);
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data: { leaderboards } } = responseJson;
+    return leaderboards;
+  }
+
+  async function createComment({ content, id }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${id}/comments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content,
+      }),
+    });
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    console.log('data dari api', status, message);
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data: { comment } } = responseJson;
+    return comment;
+  }
+  async function toggleUpVoteThread(threadId) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/up-vote`, {
+      method: 'POST',
+    });
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    console.log('data dari api', status, message);
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data: { vote } } = responseJson;
+    return vote;
   }
 
   return {
@@ -133,6 +203,9 @@ const api = (() => {
     getAllThreads,
     createThread,
     getThreadDetail,
+    getAllLeaderboards,
+    createComment,
+    toggleUpVoteThread,
   };
 })();
 

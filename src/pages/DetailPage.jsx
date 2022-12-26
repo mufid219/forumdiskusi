@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Detail from '../components/Detail';
 import { asyncReceiveThreadDetail } from '../states/detailThread/action';
+// import { asyncAddComment } from '../states/comments/action';
 
 function DetailPage({ title }) {
   const { id } = useParams();
@@ -18,7 +19,7 @@ function DetailPage({ title }) {
     dispatch(asyncReceiveThreadDetail(id));
   }, [id, dispatch]);
 
-  console.log(threadDetail, authUser);
+  console.log('data id thread detailpage', id);
   if (!threadDetail) {
     return null;
   }

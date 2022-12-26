@@ -2,8 +2,15 @@ import React from 'react';
 import { BiDislike, BiLike } from 'react-icons/bi';
 import PropTypes from 'prop-types';
 import HTMLReactParser from 'html-react-parser';
+// import { useParams } from 'react-router-dom';
+// import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { postedAt } from '../utils';
 import Comment from './Comment';
+import useInput from '../hooks/useInput';
+import { asyncAddComment } from '../states/comments/action';
+// import { asyncAddComment } from '../states/comments/action';
 
 function Detail({
   id,
@@ -19,7 +26,15 @@ function Detail({
   const totalUpVote = upVotesBy ? upVotesBy.length : null;
   const totalDownVote = downVotesBy ? downVotesBy.length : null;
 
-  console.log('avatar', comments[0].owner.name);
+  const [content, onContentChange] = useInput('');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const onAddComment = ({ id, content }) => {
+    console.log(content, id);
+    dispatch(asyncAddComment({ id, content }));
+    navigate('/');
+  };
 
   return (
     <div className="border-2 rounded-2xl m-3">
@@ -37,17 +52,25 @@ function Detail({
       <div className="flex flex-col p-5">
         <h1 className="text-xl font-bold text-black cursor-pointer mb-1">Beri Komentar</h1>
         <div className="mb-2">
-          <textarea className="w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 mx-auto" />
+          <textarea value={content} onChange={onContentChange} className="w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 mx-auto" />
         </div>
         <div className="mt-6">
-          <button type="button" className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Kirim</button>
+          <button
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+              onAddComment({ id, content });
+            }}
+            className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+          >Kirim
+          </button>
         </div>
       </div>
       <div className="flex flex-col p-5">
         <h1 className="text-xl font-bold text-black cursor-pointer mb-1">Komentar ({comments.length})</h1>
         {
-        comments.map((comment) => (
-          <Comment key={comment.id} {...comment} />
+        comments.map((komen) => (
+          <Comment key={komen.id} {...komen} />
         ))
       }
       </div>
@@ -69,6 +92,7 @@ const threadItemShape = {
   downVoteBy: PropTypes.arrayOf(PropTypes.string),
   owner: PropTypes.shape(userShape).isRequired,
   authUser: PropTypes.object.isRequired,
+  // addComment: PropTypes.func.isRequired,
   comments: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,

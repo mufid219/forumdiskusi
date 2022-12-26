@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Categoriesbar from './components/Categoriesbar';
+import Loading from './components/Loading';
 import Sidebar from './components/Sidebar';
 import CreateThreadPage from './pages/CreateThreadPage';
 import DetailPage from './pages/DetailPage';
@@ -35,35 +36,40 @@ function App() {
 
   if (authUser === null) {
     return (
-      <main className="flex-1 bg-white border-x-2">
-        <Routes>
+      <>
+        <Loading />
+        <main className="flex-1 bg-white border-x-2">
+          <Routes>
 
-          <Route
-            path="/*"
-            element={<LoginPage title="Sign in" />}
-          />
-          <Route
-            path="/register"
-            element={<RegisterPage title="Register" />}
-          />
-        </Routes>
-      </main>
+            <Route
+              path="/*"
+              element={<LoginPage title="Sign in" />}
+            />
+            <Route
+              path="/register"
+              element={<RegisterPage title="Register" />}
+            />
+          </Routes>
+        </main>
+      </>
     );
   }
   return (
-    <div className="h-screen bg-slate-400 flex flex-row">
-      <Sidebar authUser={authUser} signOut={onSignOut} />
-      <main className="flex-1 bg-white border-x-2 ">
-        <Routes>
-          <Route
-            path="/"
-            element={<HomePage title="Diskusi Tersedia" />}
-          />
-          <Route
-            path="/threads/:id"
-            element={<DetailPage title="Detail" />}
-          />
-          {/* <Route
+    <>
+      <Loading />
+      <div className="h-screen bg-slate-400 flex flex-row">
+        <Sidebar signOut={onSignOut} />
+        <main className="flex-1 bg-white border-x-2 ">
+          <Routes>
+            <Route
+              path="/"
+              element={<HomePage title="Diskusi Tersedia" />}
+            />
+            <Route
+              path="/threads/:id"
+              element={<DetailPage title="Detail" />}
+            />
+            {/* <Route
             path="/login"
             element={<LoginPage title="Sign in" />}
           />
@@ -71,19 +77,20 @@ function App() {
             path="/register"
             element={<RegisterPage title="Register" />}
           /> */}
-          <Route
-            path="/leaderboard"
-            element={<LeaderboardPage title="Klasemen pengguna aktif" />}
-          />
-          <Route
-            path="/new"
-            element={<CreateThreadPage desc="Buat Diskusi Baru" />}
-          />
-        </Routes>
-      </main>
-      <Categoriesbar />
+            <Route
+              path="/leaderboard"
+              element={<LeaderboardPage title="Klasemen pengguna aktif" />}
+            />
+            <Route
+              path="/new"
+              element={<CreateThreadPage desc="Buat Diskusi Baru" />}
+            />
+          </Routes>
+        </main>
+        <Categoriesbar />
 
-    </div>
+      </div>
+    </>
   );
 }
 

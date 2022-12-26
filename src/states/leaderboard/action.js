@@ -1,3 +1,4 @@
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import api from '../../utils/api';
 
 const ActionType = {
@@ -12,12 +13,14 @@ const receiveLeaderboardsActionCreator = (leaderboards) => ({
 });
 
 const asyncReceiveLeaderboard = () => async (dispatch) => {
+  dispatch(showLoading());
   try {
     const leaderboards = await api.getAllLeaderboards();
     dispatch(receiveLeaderboardsActionCreator(leaderboards));
   } catch (error) {
     alert(error.message);
   }
+  dispatch(hideLoading());
 };
 
 export {

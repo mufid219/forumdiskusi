@@ -3,15 +3,25 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import ThreadsList from '../components/ThreadsList';
 import { asyncPupulateUsersAndThreads } from '../states/shared/action';
+import { asyncToggleUpVoteThread } from '../states/threads/action';
 
 function HomePage({ title }) {
-  const { threads = [], users = [], authUser } = useSelector((state) => state);
+  const {
+    threads = [],
+    users = [],
+    authUser,
+  } = useSelector((state) => state);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(asyncPupulateUsersAndThreads());
   }, [dispatch]);
+
+  const onUpVoteThread = (threadId) => {
+    console.log('data id dari homepage', threadId);
+    dispatch(asyncToggleUpVoteThread(threadId));
+  };
 
   const threadList = threads.map((thread) => ({
     ...thread,
@@ -24,7 +34,7 @@ function HomePage({ title }) {
       <div className="flex flex-row p-3 border-b-2">
         <h1 className="text-2xl font-semibold">{title}</h1>
       </div>
-      <ThreadsList threads={threadList} />
+      <ThreadsList threads={threadList} upVote={onUpVoteThread} />
     </>
   );
 }

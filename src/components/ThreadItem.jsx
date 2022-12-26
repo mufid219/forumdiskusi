@@ -16,9 +16,18 @@ function ThreadItem({
   totalComments,
   authUser,
   user,
-  ownerId,
+  upVote,
 }) {
   const navigate = useNavigate();
+
+  const isThreadUpVote = upVotesBy.includes(authUser);
+  const onUpVoteThreadClick = (e) => {
+    e.stopPropagation();
+    console.log('data id onclik', id);
+    if (!isThreadUpVote) {
+      upVote(id);
+    }
+  };
 
   const onThreadClick = () => {
     navigate(`/threads/${id}`);
@@ -38,7 +47,13 @@ function ThreadItem({
       <h1 className="text-lg font-bold text-black cursor-pointer">{title}</h1>
       <h1 className="text-sm mb-1">{HTMLReactParser(body)}</h1>
       <div className="flex flex-row justify-start gap-x-2 items-center">
-        <h1 className="text-sm flex cursor-pointer items-center "><BiLike className="mr-1" /> {totalUpVote}</h1>
+        <h1 className="text-sm flex cursor-pointer items-center ">
+          <button type="button" onClick={onUpVoteThreadClick}>
+            { isThreadUpVote ? (<BiLike className="mr-1" style={{ color: 'blue' }} />) : (<BiLike className="mr-1" />)}
+
+          </button>
+          {totalUpVote}
+        </h1>
         <h1 className="text-sm flex cursor-pointer items-center "><BiDislike className="mr-1" /> {totalDownVote}</h1>
         <h1 className="text-sm flex cursor-pointer items-center"><BiComment className="mr-1" /> {totalComments}</h1>
         <h1 className="text-xs">{postedAt(createdAt)}</h1>
@@ -58,7 +73,6 @@ const threadItemShape = {
   body: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  ownerId: PropTypes.string.isRequired,
   upVotesBy: PropTypes.arrayOf(PropTypes.string).isRequired,
   downVoteBy: PropTypes.arrayOf(PropTypes.string),
   user: PropTypes.shape(userShape).isRequired,
@@ -67,9 +81,10 @@ const threadItemShape = {
 };
 ThreadItem.propTypes = {
   ...threadItemShape,
+  upVote: PropTypes.func,
 };
 ThreadItem.defaultProps = {
-
+  upVote: null,
 };
 
 export { threadItemShape };

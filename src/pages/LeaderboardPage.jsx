@@ -15,8 +15,6 @@ function LeaderboardPage({ title }) {
     dispatch(asyncReceiveLeaderboard());
   }, [dispatch]);
 
-  console.log('leaderboads data di LPage', leaderboards);
-
   if (!leaderboards) {
     return null;
   }

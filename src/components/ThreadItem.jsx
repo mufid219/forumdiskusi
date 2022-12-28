@@ -12,21 +12,26 @@ function ThreadItem({
   category,
   createdAt,
   upVotesBy,
-  downVoteBy,
+  downVotesBy,
   totalComments,
   authUser,
   user,
   upVote,
+  downVote,
 }) {
   const navigate = useNavigate();
 
   const isThreadUpVote = upVotesBy.includes(authUser);
+  const isThreadDownVote = downVotesBy.includes(authUser);
+
   const onUpVoteThreadClick = (e) => {
     e.stopPropagation();
-    console.log('data id onclik', id);
-    if (!isThreadUpVote) {
-      upVote(id);
-    }
+    upVote(id);
+  };
+
+  const onDownVoteThreadClick = (e) => {
+    e.stopPropagation();
+    downVote(id);
   };
 
   const onThreadClick = () => {
@@ -40,21 +45,24 @@ function ThreadItem({
   };
 
   const totalUpVote = upVotesBy ? upVotesBy.length : null;
-  const totalDownVote = downVoteBy ? downVoteBy.length : null;
+  const totalDownVote = downVotesBy ? downVotesBy.length : null;
   return (
     <div role="button" tabIndex={0} className="flex flex-col w-full border-2 rounded-2xl p-3 mb-2 cursor-pointer" onClick={onThreadClick} onKeyDown={onThreadPress}>
       <h1 className=" text-black border-2 w-fit rounded-xl p-2 mb-2">#{category}</h1>
       <h1 className="text-lg font-bold text-black cursor-pointer">{title}</h1>
       <h1 className="text-sm mb-1">{HTMLReactParser(body)}</h1>
       <div className="flex flex-row justify-start gap-x-2 items-center">
-        <h1 className="text-sm flex cursor-pointer items-center ">
+        <p className="text-sm flex cursor-pointer items-center ">
           <button type="button" onClick={onUpVoteThreadClick}>
             { isThreadUpVote ? (<BiLike className="mr-1" style={{ color: 'blue' }} />) : (<BiLike className="mr-1" />)}
-
           </button>
           {totalUpVote}
-        </h1>
-        <h1 className="text-sm flex cursor-pointer items-center "><BiDislike className="mr-1" /> {totalDownVote}</h1>
+        </p>
+        <p className="text-sm flex cursor-pointer items-center ">
+          <button type="button" onClick={onDownVoteThreadClick}>
+            { isThreadDownVote ? (<BiDislike className="mr-1" style={{ color: 'red' }} />) : (<BiDislike className="mr-1" />)}
+          </button>{totalDownVote}
+        </p>
         <h1 className="text-sm flex cursor-pointer items-center"><BiComment className="mr-1" /> {totalComments}</h1>
         <h1 className="text-xs">{postedAt(createdAt)}</h1>
         <h1 className="text-xs">Dibuat oleh {user.name}</h1>
@@ -82,9 +90,11 @@ const threadItemShape = {
 ThreadItem.propTypes = {
   ...threadItemShape,
   upVote: PropTypes.func,
+  downVote: PropTypes.func,
 };
 ThreadItem.defaultProps = {
   upVote: null,
+  downVote: null,
 };
 
 export { threadItemShape };

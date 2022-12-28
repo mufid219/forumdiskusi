@@ -152,7 +152,7 @@ const api = (() => {
     return leaderboards;
   }
 
-  async function createComment({ content, id }) {
+  async function createComment({ content, id = '' }) {
     const response = await _fetchWithAuth(`${BASE_URL}/threads/${id}/comments`, {
       method: 'POST',
       headers: {
@@ -165,8 +165,6 @@ const api = (() => {
     const responseJson = await response.json();
     const { status, message } = responseJson;
 
-    console.log('data dari api', status, message);
-
     if (status !== 'success') {
       throw new Error(message);
     }
@@ -175,16 +173,27 @@ const api = (() => {
     return comment;
   }
 
-  async function toggleUpVoteThread(threadId) {
-    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/up-vote`, {
+  async function toggleUpVoteThread(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${id}/up-vote`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const responseJson = await response.json();
     const { status, message } = responseJson;
 
-    console.log('threadId', threadId);
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
 
-    console.log('data dari api', status, message);
+  async function toggleDownVoteThread(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${id}/down-vote`, {
+      method: 'POST',
+    });
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
 
     if (status !== 'success') {
       throw new Error(message);
@@ -194,14 +203,12 @@ const api = (() => {
     return vote;
   }
 
-  async function toggleDownVoteThread(threadId) {
-    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/down-vote`, {
+  async function toggleNeutralizeVoteThread(id) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${id}/neutral-vote`, {
       method: 'POST',
     });
     const responseJson = await response.json();
     const { status, message } = responseJson;
-
-    console.log('data dari api', status, message);
 
     if (status !== 'success') {
       throw new Error(message);
@@ -211,14 +218,45 @@ const api = (() => {
     return vote;
   }
 
-  async function toggleNeutralizeVoteThread(threadId) {
-    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/neutral-vote`, {
+  async function toggleUpVoteComment({ threadId, commentId }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/comments/${commentId}/up-vote`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        threadId,
+      }),
+    });
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function toggleDownVoteComment({ threadId, commentId }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/comments/${commentId}/down-vote`, {
       method: 'POST',
     });
     const responseJson = await response.json();
     const { status, message } = responseJson;
 
-    console.log('data dari api', status, message);
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const { data: { vote } } = responseJson;
+    return vote;
+  }
+
+  async function toggleNeutralizeVoteComment({ threadId, commentId }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/threads/${threadId}/comments/${commentId}/neutral-vote`, {
+      method: 'POST',
+    });
+    const responseJson = await response.json();
+    const { status, message } = responseJson;
 
     if (status !== 'success') {
       throw new Error(message);
@@ -243,6 +281,9 @@ const api = (() => {
     toggleUpVoteThread,
     toggleDownVoteThread,
     toggleNeutralizeVoteThread,
+    toggleUpVoteComment,
+    toggleDownVoteComment,
+    toggleNeutralizeVoteComment,
   };
 })();
 

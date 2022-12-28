@@ -3,18 +3,20 @@ import api from '../../utils/api';
 import { receiveThreadActionCreator } from '../threads/action';
 import { receiveUsersActionCreator } from '../users/action';
 
-const asyncPupulateUsersAndThreads = () => async (dispatch) => {
-  dispatch(showLoading());
-  try {
-    const users = await api.getAllUsers();
-    const threads = await api.getAllThreads();
+function asyncPupulateUsersAndThreads() {
+  return async (dispatch) => {
+    dispatch(showLoading());
+    try {
+      const users = await api.getAllUsers();
+      const threads = await api.getAllThreads();
 
-    dispatch(receiveUsersActionCreator(users));
-    dispatch(receiveThreadActionCreator(threads));
-  } catch (error) {
-    alert(error.message);
-  }
-  dispatch(hideLoading());
-};
+      dispatch(receiveUsersActionCreator(users));
+      dispatch(receiveThreadActionCreator(threads));
+    } catch (error) {
+      alert(error.message);
+    }
+    dispatch(hideLoading());
+  };
+}
 
 export { asyncPupulateUsersAndThreads };

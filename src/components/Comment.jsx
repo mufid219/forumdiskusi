@@ -9,11 +9,31 @@ function Comment({
   content,
   createdAt,
   owner,
+  authUser,
   upVotesBy,
   downVotesBy,
+  upVoteComment,
+  downVoteComment,
 }) {
   const totalUpVoteComment = upVotesBy ? upVotesBy.length : null;
   const totalDownVoteComment = downVotesBy ? downVotesBy.length : null;
+
+  const isUpVoteComment = upVotesBy?.includes(authUser);
+  const isDownVoteComment = downVotesBy.includes(authUser);
+
+  const onUpVoteClick = (e) => {
+    e.stopPropagation();
+    if (!isUpVoteComment && !isUpVoteComment) {
+      upVoteComment(id);
+    }
+  };
+
+  const onDownVoteClick = (e) => {
+    e.stopPropagation();
+    if (!isDownVoteComment && !isDownVoteComment) {
+      downVoteComment(id);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full border-2 rounded-2xl p-3 mb-2">
@@ -26,8 +46,17 @@ function Comment({
       </div>
       <h1 className="mb-1">{HTMLReactParser(content)}</h1>
       <div className="flex flex-row justify-start gap-x-4 items-center">
-        <h1 className="text-sm flex cursor-pointer items-center "><BiLike className="mr-1" /> {totalUpVoteComment}</h1>
-        <h1 className="text-sm flex cursor-pointer items-center "><BiDislike className="mr-1" /> {totalDownVoteComment}</h1>
+        <p className="text-sm flex cursor-pointer items-center ">
+          <button type="button" onClick={onUpVoteClick}>
+            { isUpVoteComment ? (<BiLike className="mr-1" style={{ color: 'blue' }} />) : (<BiLike className="mr-1" />)}
+          </button>
+          {totalUpVoteComment}
+        </p>
+        <p className="text-sm flex cursor-pointer items-center ">
+          <button type="button" onClick={onDownVoteClick}>
+            { isDownVoteComment ? (<BiDislike className="mr-1" style={{ color: 'red' }} />) : (<BiDislike className="mr-1" />)}
+          </button>{totalDownVoteComment}
+        </p>
       </div>
     </div>
   );
@@ -42,6 +71,7 @@ const CommentShape = {
     id: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
+    authUser: PropTypes.string.isRequired,
     upVotesBy: PropTypes.arrayOf(PropTypes.string).isRequired,
     downVoteBy: PropTypes.arrayOf(PropTypes.string),
     owner: PropTypes.shape(userShape).isRequired,
@@ -49,5 +79,11 @@ const CommentShape = {
 };
 Comment.propTypes = {
   ...CommentShape,
+  upVoteComment: PropTypes.func,
+  downVoteComment: PropTypes.func,
+};
+Comment.defaultProps = {
+  upVoteComment: null,
+  downVoteComment: null,
 };
 export default Comment;

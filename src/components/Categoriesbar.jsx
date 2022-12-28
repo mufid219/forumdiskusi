@@ -20,7 +20,11 @@ function Categoriesbar() {
         <div className="flex flex-col p-3">
           {
             threads.map((thread) => (
-              <h1 key={thread.id} className="text-xl text-black font-bold mb-2">#{thread.category}</h1>
+              <h1
+                key={thread.id}
+                className="text-xl text-black font-bold mb-2"
+              >#{thread.category}
+              </h1>
             ))
           }
 

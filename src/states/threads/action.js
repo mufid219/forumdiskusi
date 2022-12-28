@@ -64,35 +64,41 @@ const asyncToggleUpVoteThread = (threadId) => async (dispatch, getState) => {
   const { authUser } = getState();
 
   dispatch(toggleUpVoteThreadActionCreator({ threadId, userId: authUser.id }));
+  dispatch(showLoading());
   try {
     await api.toggleUpVoteThread(threadId);
   } catch (error) {
     alert(error.message);
     dispatch(toggleUpVoteThreadActionCreator({ threadId, userId: authUser.id }));
   }
+  dispatch(hideLoading());
 };
 const asyncToggleDownVoteThread = (threadId) => async (dispatch, getState) => {
   const { authUser } = getState();
 
   dispatch(toggleDownVoteThreadActionCreator({ userId: authUser.id, threadId }));
+  dispatch(showLoading());
   try {
     await api.toggleDownVoteThread(threadId);
   } catch (error) {
     alert(error.message);
     dispatch(toggleDownVoteThreadActionCreator({ threadId, userId: authUser.id }));
   }
+  dispatch(hideLoading());
 };
 
 const asyncToggleNeutralizeUpVoteThread = (threadId) => async (dispatch, getState) => {
   const { authUser } = getState();
 
   dispatch(toggleNeutralizeVoteThreadActionCreator({ userId: authUser.id, threadId }));
+  dispatch(showLoading());
   try {
     await api.toggleNeutralizeVoteThread(threadId);
   } catch (error) {
     alert(error.message);
     dispatch(toggleNeutralizeVoteThreadActionCreator({ threadId, userId: authUser.id }));
   }
+  dispatch(hideLoading());
 };
 
 export {

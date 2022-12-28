@@ -49,9 +49,9 @@ function ThreadItem({
   return (
     <div role="button" tabIndex={0} className="flex flex-col w-full border-2 rounded-2xl p-3 mb-2 cursor-pointer" onClick={onThreadClick} onKeyDown={onThreadPress}>
       <h1 className=" text-black border-2 w-fit rounded-xl p-2 mb-2">#{category}</h1>
-      <h1 className="text-lg font-bold text-black cursor-pointer">{title}</h1>
-      <h1 className="text-sm mb-1">{HTMLReactParser(body)}</h1>
-      <div className="flex flex-row justify-start gap-x-2 items-center">
+      <h1 className="text-lg font-bold text-black cursor-pointer px-2">{title}</h1>
+      <h1 className="text-sm mb-1 px-2">{HTMLReactParser(body)}</h1>
+      <div className="flex flex-row justify-start gap-x-2 items-center px-2">
         <p className="text-sm flex cursor-pointer items-center ">
           <button type="button" onClick={onUpVoteThreadClick}>
             { isThreadUpVote ? (<BiLike className="mr-1" style={{ color: 'blue' }} />) : (<BiLike className="mr-1" />)}

@@ -2,9 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-// import Categoriesbar from './components/Categoriesbar';
 import Loading from './components/Loading';
-// import Sidebar from './components/Sidebar';
 import CreateThreadPage from './pages/CreateThreadPage';
 import DetailPage from './pages/DetailPage';
 import HomePage from './pages/HomePage';
@@ -12,7 +10,6 @@ import LeaderboardPage from './pages/LeaderboardPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import RegisterPage from './pages/RegisterPage';
-// import { asyncUnsetAuthUser } from './states/authUser/action';
 import { asyncPreloadProcess } from './states/isPreload/action';
 
 function App() {
@@ -53,7 +50,6 @@ function App() {
   return (
     <>
       <Loading />
-
       <Routes>
         <Route
           path="/"
@@ -63,14 +59,6 @@ function App() {
           path="/threads/:id"
           element={<DetailPage title="Detail" />}
         />
-        {/* <Route
-            path="/login"
-            element={<LoginPage title="Sign in" />}
-          />
-          <Route
-            path="/register"
-            element={<RegisterPage title="Register" />}
-          /> */}
         <Route
           path="/leaderboard"
           element={<LeaderboardPage title="Klasemen pengguna aktif" />}

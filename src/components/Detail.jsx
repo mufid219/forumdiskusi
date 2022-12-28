@@ -2,14 +2,9 @@ import React from 'react';
 import { BiDislike, BiLike } from 'react-icons/bi';
 import PropTypes from 'prop-types';
 import HTMLReactParser from 'html-react-parser';
-// import { useParams } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
 import { postedAt } from '../utils';
 import Comment from './Comment';
 import useInput from '../hooks/useInput';
-// import { asyncAddComment } from '../states/comments/action';
-// import { asyncAddComment } from '../states/comments/action';
 
 function Detail({
   title,
@@ -70,7 +65,10 @@ function Detail({
               { isDownVoteDetail ? (<BiDislike className="mr-1" style={{ color: 'red' }} />) : (<BiDislike className="mr-1" />)}
             </button>{totalDownVote}
           </p>
-          <h1 className="text-xs">Dibuat oleh {owner.name}</h1>
+          <h1 className="text-xs flex flex-row items-center">Dibuat oleh
+            <img src={owner.avatar} alt="" className="w-5 h-5 rounded-full ml-2 mr-1" />
+            {owner.name}
+          </h1>
           <h1 className="text-xs">{postedAt(createdAt)}</h1>
         </div>
       </div>
